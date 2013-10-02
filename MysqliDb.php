@@ -401,11 +401,10 @@ class MysqliDb
         if ($hasOrderBy) {
         	
         	if ($this->_orderby) :
-			$cnt = count($this->_orderby);
 			$this->_query .= ' ORDER BY ';
 			foreach($this->_orderby  as $k=>$v){
 				$this->_query .= $v[0] . ' ' . $v[1];
-				$this->_query .= $k+1 < $cnt ? ', ' : ' ';
+				$this->_query .= $k+1 < count($this->_orderby) ? ', ' : ' ';
 			}
 		endif;
         	
