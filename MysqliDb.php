@@ -256,12 +256,12 @@ class MysqliDb
      *
      * @return MysqliDb
      */
-    public function orderby($whatProp = 'position', $directionValue = 'ASC')
+    public function orderby($whatProp, $directionValue = 'ASC')
     {
-        $this->_orderby["what"] = $whatProp;
-        $this->_orderby["direction"] = $directionValue;
+	$this->_orderby[] = array($whatProp,$directionValue);
         return $this;
     }
+
 
 
     /**
@@ -401,10 +401,12 @@ class MysqliDb
         if ($hasOrderBy) {
         	
         	if ($this->_orderby) :
-				
-				$this->_query .= ' ORDER BY ' . $this->_orderby["what"] . ' ' . $this->_orderby["direction"];
-        	
-        	endif;
+			$this->_query .= ' ORDER BY ';
+			foreach($this->_orderby  as $k=>$v){
+				$this->_query .= $v[0] . ' ' . $v[1];
+				$this->_query .= $k+1 < count($this->_orderby) ? ', ' : ' ';
+			}
+		endif;
         	
         }
 
